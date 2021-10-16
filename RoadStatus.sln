@@ -11,17 +11,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.Console", "src\R
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoadStatus.Console", "RoadStatus.Console", "{DE4FD2A5-C2ED-4666-9C66-0CC8941115C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadStatus.Service", "src\RoadStatus.Service\RoadStatus.Service.csproj", "{28D4C70C-5708-4ED3-8A6B-1D43AEEC365F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.Service", "src\RoadStatus.Service\RoadStatus.Service.csproj", "{28D4C70C-5708-4ED3-8A6B-1D43AEEC365F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoadStatus.Service", "RoadStatus.Service", "{5DC4F11C-C38C-48D0-85B4-DCBFD49D5DFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadStatus.EndToEndTests", "test\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj", "{82BB5E4E-A9D4-4AC6-9E70-2B733282EADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.EndToEndTests", "test\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj", "{82BB5E4E-A9D4-4AC6-9E70-2B733282EADB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoadStatus.EndToEndTests", "RoadStatus.EndToEndTests", "{51C3EC4F-6797-49AE-9350-5557DD984DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadStatus.UnitTests", "test\RoadStatus.UnitTests\RoadStatus.UnitTests.csproj", "{61FB8F98-2891-421C-8202-5765CE249630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.UnitTests", "test\RoadStatus.UnitTests\RoadStatus.UnitTests.csproj", "{61FB8F98-2891-421C-8202-5765CE249630}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoadStatus.UnitTests", "RoadStatus.UnitTests", "{77E8BB08-ABB4-4A58-ADBC-1326CC67D67B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadStatus.Data", "src\RoadStatus.Data\RoadStatus.Data.csproj", "{546F3C07-63FB-48BE-A913-185C5BF76813}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoadStatus.Data", "RoadStatus.Data", "{F7241821-A2B5-4696-AE6A-C0B43695B4ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,10 @@ Global
 		{61FB8F98-2891-421C-8202-5765CE249630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61FB8F98-2891-421C-8202-5765CE249630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61FB8F98-2891-421C-8202-5765CE249630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546F3C07-63FB-48BE-A913-185C5BF76813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546F3C07-63FB-48BE-A913-185C5BF76813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546F3C07-63FB-48BE-A913-185C5BF76813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546F3C07-63FB-48BE-A913-185C5BF76813}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +66,8 @@ Global
 		{51C3EC4F-6797-49AE-9350-5557DD984DA8} = {6CBFB403-F7E5-4782-A83C-A91651A55657}
 		{61FB8F98-2891-421C-8202-5765CE249630} = {77E8BB08-ABB4-4A58-ADBC-1326CC67D67B}
 		{77E8BB08-ABB4-4A58-ADBC-1326CC67D67B} = {6CBFB403-F7E5-4782-A83C-A91651A55657}
+		{546F3C07-63FB-48BE-A913-185C5BF76813} = {F7241821-A2B5-4696-AE6A-C0B43695B4ED}
+		{F7241821-A2B5-4696-AE6A-C0B43695B4ED} = {EB8FE7E2-E69F-4F4B-81AD-73D83ED49BF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F87E9AF-FC53-4436-8463-9F8EDA977BBF}

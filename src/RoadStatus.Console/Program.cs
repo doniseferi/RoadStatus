@@ -1,10 +1,11 @@
 ﻿namespace RoadStatus.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static int Main(string[] args)
         {
             System.Console.WriteLine("Hello World!");
+            return 1;
         }
     }
 }
