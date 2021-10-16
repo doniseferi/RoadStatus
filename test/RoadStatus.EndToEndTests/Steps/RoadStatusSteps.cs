@@ -16,7 +16,6 @@ namespace RoadStatus.EndToEndTests.Steps
         private readonly SystemUnderTestExecutionHandler _systemUnderTestExecutionHandler;
         private List<Road> _roads;
         private List<ConsoleApplicationExecutionResult> _results;
-        private List<string> _roadIds;
 
         public RoadStatusSteps(SystemUnderTestExecutionHandler systemUnderTestExecutionHandler)
         {
@@ -27,21 +26,22 @@ namespace RoadStatus.EndToEndTests.Steps
         public void GivenAValidRoadIDIsSpecified(Table table) => _roads = table.CreateSet<Road>().ToList();
 
         [When(@"the client is run")]
-        public void WhenTheClientIsRun() =>
-            _results = _roads
-                .Select(
-                    r => _systemUnderTestExecutionHandler.ExecuteAsync(new []{r.RoadId}).Result)
-                .ToList();
+        public async Task WhenTheClientIsRun() =>
+            _results = (
+                await Task.WhenAll(
+                _roads
+                    .Select(async r => await _systemUnderTestExecutionHandler.ExecuteAsync(new[] { r.RoadId }))
+                    .ToList())).ToList();
 
 
         [Then(@"the road displayName should be displayed")]
         public void ThenTheRoadDisplayNameShouldBeDisplayed() =>
             _roads.ForEach(r =>
             {
-                var expectedOutput = $"The status of the {r.Description} is as follows";
+                var expectedOutput = $"The status of the {r.RoadId} is as follows";
 
                 var doesResultContainExpectedDescription = _results.Any(t => t.ConsoleOutput.Contains(expectedOutput));
-                
+
                 Assert.IsTrue(doesResultContainExpectedDescription);
             });
 
@@ -52,12 +52,12 @@ namespace RoadStatus.EndToEndTests.Steps
         }
 
         [Given(@"an invalid road ID is specified:")]
-        public void GivenAnInvalidRoadIDIsSpecified(Table table) => _roadIds = table.CreateSet<string>().ToList();
+        public void GivenAnInvalidRoadIDIsSpecified(Table table) => _roads = table.CreateSet<Road>().ToList();
 
         [Then(@"the application should return an informative error")]
         public void ThenTheApplicationShouldReturnAnInformativeError()
         {
-            var expected = _roadIds
+            var expected = _roads
                 .Select(r => $"{r} is not a valid road")
                 .ToList();
 
