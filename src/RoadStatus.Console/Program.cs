@@ -15,7 +15,7 @@ namespace RoadStatus.Console
             var handler = host.Services.GetService<IGetRoadStatusByIdQueryHandler>();
 
             return await Parser.Default.ParseArguments<CommandLineOptions>(args)
-                .MapResult(async (CommandLineOptions opts) =>
+                .MapResult(async opts =>
                     {
                         try
                         {

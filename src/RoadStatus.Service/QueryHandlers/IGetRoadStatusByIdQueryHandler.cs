@@ -4,7 +4,9 @@ using LanguageExt;
 using RoadStatus.Service.Entities;
 using RoadStatus.Service.ValueObjects;
 
-[assembly: InternalsVisibleTo("RoadStatus.Console")]
+[assembly: InternalsVisibleTo("RoadStatus.Console"),
+           InternalsVisibleTo("RoadStatus.UnitTests")]
+
 namespace RoadStatus.Service.QueryHandlers
 {
     internal interface IGetRoadStatusByIdQueryHandler
