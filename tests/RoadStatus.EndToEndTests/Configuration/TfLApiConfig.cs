@@ -1,6 +1,6 @@
 ﻿namespace RoadStatus.EndToEndTests.Configuration
 {
-    public class TfLApiConfig
+    public record TfLApiConfig
     {
         public const string Section = "TfL.ApiConfig";
 

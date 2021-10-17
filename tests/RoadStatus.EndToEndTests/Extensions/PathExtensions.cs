@@ -3,8 +3,6 @@ using System.IO;
 
 namespace RoadStatus.EndToEndTests.Extensions
 {
-    /*im aware that helper, manager, utils are code smells as
-     they become dumping site for code*/
     internal static class PathExtensions
     {
         public static string GetConsoleAppExePath(this AppDomain appDomain)

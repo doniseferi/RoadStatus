@@ -37,7 +37,7 @@ namespace RoadStatus.EndToEndTests.Hooks
             var tflApiConfig = new TfLApiConfig();
             GetConfiguration().GetSection(TfLApiConfig.Section).Bind(tflApiConfig);
             _objectContainer.RegisterInstanceAs(tflApiConfig);
-            return new FlurlClient(tflApiConfig.BaseUrl);
+            return new FlurlClient();
         }
     }
 }
