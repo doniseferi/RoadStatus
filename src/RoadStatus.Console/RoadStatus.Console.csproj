@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RoadStatus.Data\RoadStatus.Data.csproj" />
     <ProjectReference Include="..\RoadStatus.Service\RoadStatus.Service.csproj" />
   </ItemGroup>
 
