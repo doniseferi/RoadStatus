@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Flurl;
+using Flurl.Http;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using RoadStatus.EndToEndTests.Configuration;
 using RoadStatus.EndToEndTests.Records;
 using RoadStatus.EndToEndTests.TestHandler;
 using TechTalk.SpecFlow;
@@ -13,13 +17,46 @@ namespace RoadStatus.EndToEndTests.Steps
     [Binding]
     class RoadStatusSteps
     {
+        class RoadResponse
+        {
+            [JsonProperty("$type")]
+            public string Type { get; set; }
+
+            [JsonProperty("id")]
+            public string Id { get; set; }
+
+            [JsonProperty("displayName")]
+            public string DisplayName { get; set; }
+
+            [JsonProperty("statusSeverity")]
+            public string StatusSeverity { get; set; }
+
+            [JsonProperty("statusSeverityDescription")]
+            public string StatusSeverityDescription { get; set; }
+
+            [JsonProperty("bounds")]
+            public string Bounds { get; set; }
+
+            [JsonProperty("envelope")]
+            public string Envelope { get; set; }
+
+            [JsonProperty("url")]
+            public string Url { get; set; }
+        }
+
         private readonly SystemUnderTestExecutionHandler _systemUnderTestExecutionHandler;
+        private readonly IFlurlClient _tfLHttpClient;
+        private readonly TfLApiConfig _tpLApiConfig;
         private List<Road> _roads;
         private List<ConsoleApplicationExecutionResult> _results;
 
-        public RoadStatusSteps(SystemUnderTestExecutionHandler systemUnderTestExecutionHandler)
+        public RoadStatusSteps(SystemUnderTestExecutionHandler systemUnderTestExecutionHandler,
+            IFlurlClient tfLHttpClient, TfLApiConfig tpLApiConfig)
         {
-            _systemUnderTestExecutionHandler = systemUnderTestExecutionHandler ?? throw new ArgumentNullException(nameof(systemUnderTestExecutionHandler));
+            _systemUnderTestExecutionHandler = systemUnderTestExecutionHandler ??
+                                               throw new ArgumentNullException(nameof(systemUnderTestExecutionHandler));
+            _tfLHttpClient = tfLHttpClient;
+            _tpLApiConfig = tpLApiConfig;
         }
 
         [Given(@"a valid road ID is specified:")]
@@ -29,9 +66,9 @@ namespace RoadStatus.EndToEndTests.Steps
         public async Task WhenTheClientIsRun() =>
             _results = (
                 await Task.WhenAll(
-                _roads
-                    .Select(async r => await _systemUnderTestExecutionHandler.ExecuteAsync(new[] { r.RoadId }))
-                    .ToList())).ToList();
+                    _roads
+                        .Select(async r => await _systemUnderTestExecutionHandler.ExecuteAsync(new[] {r.RoadId}))
+                        .ToList())).ToList();
 
 
         [Then(@"the road displayName should be displayed")]
@@ -46,8 +83,18 @@ namespace RoadStatus.EndToEndTests.Steps
             });
 
         [Then(@"the road '(.*)' should be displayed as '(.*)'")]
-        public void ThenTheRoadShouldBeDisplayedAs(string key, string value)
+        public async Task ThenTheRoadShouldBeDisplayedAs(string key, string consoleKeyValue)
         {
+            var roadResponse = await "Road/"
+                .SetQueryParam("app_key", _tpLApiConfig.ApiKey)
+                .GetJsonAsync<RoadResponse>();
+
+            /*
+             * call api at tfl
+             * get property from key
+             * call console app
+             * get consoleKeyValue of console response
+             */
             ScenarioContext.Current.Pending();
         }
 
@@ -77,5 +124,3 @@ namespace RoadStatus.EndToEndTests.Steps
         }
     }
 }
-
-
