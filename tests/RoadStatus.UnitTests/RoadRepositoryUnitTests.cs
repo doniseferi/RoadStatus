@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using Flurl.Http.Testing;
+using LanguageExt;
 using NUnit.Framework;
 using RoadStatus.Data;
+using RoadStatus.Service.Entities;
 using RoadStatus.Service.ValueObjects;
 
 namespace RoadStatus.UnitTests
@@ -28,8 +30,11 @@ namespace RoadStatus.UnitTests
             httpTest.RespondWith(status: 404);
             
             var roadRepository = new RoadRepository(new FlurlClient());
-            
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await roadRepository.GetByIdAsync(new RoadId(roadId)));
+
+            var expected = Option<Road>.None;
+            var actual = await roadRepository.GetByIdAsync(new RoadId(roadId));
+
+            Assert.That(expected, Is.EqualTo(actual));
         }
     }
 }

@@ -23,12 +23,19 @@ namespace RoadStatus.Data
         }
 
 
-        public Task<Option<Road>> GetByIdAsync(RoadId roadId)
+        public async Task<Option<Road>> GetByIdAsync(RoadId roadId)
         {
             if (roadId == null)
                 throw new ArgumentNullException(nameof(roadId));
 
-            throw new NotImplementedException();
+            try
+            {
+                return await "https://tfl.com".WithClient(_tfLHttpClient).GetJsonAsync<Road>();
+            }
+            catch (FlurlHttpException e) when(e.StatusCode == 404)
+            {
+                return Option<Road>.None;
+            }
         }
     }
 }
