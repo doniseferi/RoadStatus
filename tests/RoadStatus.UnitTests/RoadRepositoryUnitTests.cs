@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Flurl.Http;
+using Flurl;
 using Flurl.Http.Testing;
 using LanguageExt;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using RoadStatus.Data;
+using RoadStatus.Data.Dto;
+using RoadStatus.Data.Factory;
 using RoadStatus.Service.Entities;
+using RoadStatus.Service.Repository;
 using RoadStatus.Service.ValueObjects;
+using RoadStatus.UnitTests.Configuration;
 
 namespace RoadStatus.UnitTests
 {
@@ -17,7 +20,7 @@ namespace RoadStatus.UnitTests
         [Test]
         public async Task Throws_An_Exception_When_Null_Is_Passed_In()
         {
-            var roadRepository = new RoadRepository(new FlurlClient());
+            var roadRepository = GetRoadRepository();
             Assert.ThrowsAsync<ArgumentNullException>(async () => await roadRepository.GetByIdAsync(null));
         }
 
@@ -29,37 +32,81 @@ namespace RoadStatus.UnitTests
             using var httpTest = new HttpTest();
             httpTest.RespondWith(status: 404);
 
-            var roadRepository = new RoadRepository(new FlurlClient());
+            var roadRepository = GetRoadRepository();
 
             var expected = Option<Road>.None;
             var actual = await roadRepository.GetByIdAsync(new RoadId(roadId));
-
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         [TestCase("western cross route")]
         [TestCase("city route")]
-        public async Task Returns_A_Road_When_A_Valid_Road_Id_Is_Provided(string roadId)
+        [TestCase("blackwall tunnel")]
+        [TestCase("a41")]
+        public async Task Returns_A_Makes_A_Request_To_TfLs_Road_Endpoint(string roadId)
         {
-            var expectedRoad = new Road(
-                new RoadId(roadId),
-                new Name(roadId),
-                new Status(
-                    new Severity("Good"),
-                    new Description("No Exceptional Delays")));
-
-            var mockedResult = JsonConvert.SerializeObject(expectedRoad);
+            var expectedRoad = new RoadResponse[]
+            {
+                new()
+                {
+                    Id = roadId,
+                    DisplayName = roadId,
+                    StatusSeverity = "Good",
+                    StatusSeverityDescription = "No Exceptional Delays"
+                }
+            };
 
             using var httpTest = new HttpTest();
-            httpTest.RespondWith(status: 200, body: mockedResult);
+            httpTest.RespondWith(
+                status: 200,
+                body: JsonConvert.SerializeObject(expectedRoad));
 
-            var roadRepository = new RoadRepository(new FlurlClient());
+            var roadRepository = GetRoadRepository();
+            var testConfig = new TestConfiguration();
 
-            var expected = Option<Road>.Some(expectedRoad);
+            await roadRepository.GetByIdAsync(new RoadId(roadId));
+
+            httpTest.ShouldHaveCalled($"{testConfig.BaseUrl}/Road/{Url.Encode(roadId)}?app_key={testConfig.AppKey}");
+        }
+
+        [Test]
+        [TestCase("western cross route")]
+        [TestCase("city route")]
+        [TestCase("blackwall tunnel")]
+        [TestCase("a41")]
+        public async Task Returns_A_Road_When_A_Valid_Road_Id_Is_Provided(string roadId)
+        {
+            var expectedRoad = new RoadResponse[]
+            {
+                new()
+                {
+                    Id = roadId,
+                    DisplayName = roadId,
+                    StatusSeverity = "Good",
+                    StatusSeverityDescription = "No Exceptional Delays"
+                }
+            };
+
+            using var httpTest = new HttpTest();
+            httpTest.RespondWith(
+                status: 200,
+                body: JsonConvert.SerializeObject(expectedRoad));
+
+            var roadRepository = GetRoadRepository();
+
             var actual = await roadRepository.GetByIdAsync(new RoadId(roadId));
 
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.IsTrue(actual.IsSome);
+            Assert.IsFalse(actual.IsNone);
+        }
+
+        private static IRoadRepository GetRoadRepository()
+        {
+            var config = new TestConfiguration();
+            return new RoadRepositoryFactory(
+                    config)
+                .Create();
         }
     }
 }
