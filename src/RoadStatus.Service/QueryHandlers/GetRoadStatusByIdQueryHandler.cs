@@ -17,7 +17,10 @@ namespace RoadStatus.Service.QueryHandlers
         }
         public Task<Option<Road>> HandleAsync(RoadId roadId)
         {
-            throw new System.NotImplementedException();
+            if (roadId == null)
+                throw new ArgumentNullException(nameof(roadId));
+
+            return Task.FromResult(Option<Road>.None);
         }
     }
 }

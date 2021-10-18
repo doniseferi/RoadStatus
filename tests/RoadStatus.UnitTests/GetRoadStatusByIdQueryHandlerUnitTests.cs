@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using LanguageExt;
 using Moq;
 using NUnit.Framework;
@@ -101,6 +102,14 @@ namespace RoadStatus.UnitTests
                 .IfNone(string.Empty);
 
             Assert.That(actual, Is.EqualTo(Option<Road>.None));
+        }
+        
+        [Test]
+        public async Task Throws_An_Exception_When_Null_Is_Passed_In()
+        {
+            var mockedRepo = new Mock<IRoadRepository>();
+            var handler = new GetRoadStatusByIdQueryHandler(mockedRepo.Object);
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await handler.HandleAsync(null));
         }
     }
 }
