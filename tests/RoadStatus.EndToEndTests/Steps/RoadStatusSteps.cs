@@ -84,7 +84,7 @@ namespace RoadStatus.EndToEndTests.Steps
             (await _tfLApiConfig.BaseUrl
                 .AppendPathSegment("Road")
                 .AppendPathSegment(roadId)
-                .SetQueryParam("app_key", _tfLApiConfig.ApiKey)
+                .SetQueryParam("app_key", _tfLApiConfig.AppKey)
                 .WithClient(_tfLHttpClient)
                 .GetJsonAsync<List<RoadResponse>>())
             .FirstOrDefault();

@@ -5,6 +5,6 @@
         public const string Section = "TfL.ApiConfig";
 
         public string BaseUrl { get; set; }
-        public string ApiKey { get; set; }
+        public string AppKey { get; set; }
     }
 }
