@@ -70,7 +70,7 @@ namespace RoadStatus.UnitTests
                     x => x.GetByIdAsync(It.Is<RoadId>(id => id.Value == roadId)))
                 .ReturnsAsync(
                     new Road(new RoadId(roadId), new Name(roadId),
-                        new Status(new Severity(expectedDescription), new Description("Abc"))));
+                        new Status(new Severity("abc"), new Description(expectedDescription))));
 
             var handler = new GetRoadStatusByIdQueryHandler(mockedRepo.Object);
             var result = await handler.HandleAsync(new RoadId(roadId));
