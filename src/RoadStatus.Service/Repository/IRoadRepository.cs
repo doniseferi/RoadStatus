@@ -4,7 +4,8 @@ using LanguageExt;
 using RoadStatus.Service.Entities;
 using RoadStatus.Service.ValueObjects;
 
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("RoadStatus.Data"),
+           InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace RoadStatus.Service.Repository
 {
