@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Flurl;
+using Flurl.Http;
 using Flurl.Http.Testing;
 using LanguageExt;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using RoadStatus.Data.Configuration;
 using RoadStatus.Data.Dto;
-using RoadStatus.Data.Factory;
+using RoadStatus.Data.Mapper;
+using RoadStatus.Data.Repository;
 using RoadStatus.Service.Entities;
 using RoadStatus.Service.Repository;
 using RoadStatus.Service.ValueObjects;
@@ -18,7 +21,7 @@ namespace RoadStatus.UnitTests
     internal class RoadRepositoryUnitTests
     {
         [Test]
-        public async Task Throws_An_Exception_When_Null_Is_Passed_In()
+        public void Throws_An_Exception_When_Null_Is_Passed_In()
         {
             var roadRepository = GetRoadRepository();
             Assert.ThrowsAsync<ArgumentNullException>(async () => await roadRepository.GetByIdAsync(null));
@@ -104,9 +107,23 @@ namespace RoadStatus.UnitTests
         private static IRoadRepository GetRoadRepository()
         {
             var config = new TestConfiguration();
-            return new RoadRepositoryFactory(
-                    config)
-                .Create();
+            ConfigureTestClient(config);
+            var client = new FlurlClient(config.BaseUrl);
+            return new RoadRepository(client,
+                new DtoToDomainMapper());
         }
+
+        public static void ConfigureTestClient(ITfLClientConfiguration tfLClientConfiguration) =>
+            FlurlHttp.ConfigureClient(
+                tfLClientConfiguration.BaseUrl,
+                x => x
+                    .Configure(settings =>
+                    {
+                        settings.BeforeCallAsync = call =>
+                            Task.FromResult(call.Request.SetQueryParam("app_key", tfLClientConfiguration.AppKey));
+
+                        settings.BeforeCall = call =>
+                            call.Request.SetQueryParam("app_key", tfLClientConfiguration.AppKey);
+                    }));
     }
 }
