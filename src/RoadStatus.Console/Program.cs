@@ -24,7 +24,7 @@ namespace RoadStatus.Console
                     if (string.IsNullOrWhiteSpace(x.RoadId))
                     {
                         System.Console.WriteLine("Road Id cannot be empty or whitespace.");
-                        Environment.ExitCode = (int) ExitCode.InvalidInput;
+                        Environment.ExitCode = (int)ExitCode.InvalidInput;
                     }
                     else
                     {
@@ -54,15 +54,13 @@ namespace RoadStatus.Console
 
             return Host.CreateDefaultBuilder()
                 .ConfigureServices(services =>
-                {
-                    services.AddHostedService<Worker>();
-                    services.AddSingleton<ITfLClientConfiguration>(tfLClientConfiguration);
-                    services.AddSingleton(new CommandLineAgs(args));
-                    services.AddSingleton<IRoadRepository, RoadRepository>();
-                    services.AddSingleton<IDtoToDomainMapper, DtoToDomainMapper>();
-                    services.AddSingleton(flurlClient);
-                    services.AddSingleton<IGetRoadStatusByIdQueryHandler, GetRoadStatusByIdQueryHandler>();
-                });
+                    services.AddHostedService<Worker>()
+                    .AddSingleton<ITfLClientConfiguration>(tfLClientConfiguration)
+                    .AddSingleton(new CommandLineAgs(args))
+                    .AddSingleton<IRoadRepository, RoadRepository>()
+                    .AddSingleton<IDtoToDomainMapper, DtoToDomainMapper>()
+                    .AddSingleton(flurlClient)
+                    .AddSingleton<IGetRoadStatusByIdQueryHandler, GetRoadStatusByIdQueryHandler>());
         }
     }
 }

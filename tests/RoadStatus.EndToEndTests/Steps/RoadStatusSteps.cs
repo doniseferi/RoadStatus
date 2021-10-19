@@ -70,7 +70,8 @@ namespace RoadStatus.EndToEndTests.Steps
                 .ForEach(r =>
                 {
                     var response = r.FirstOrDefault();
-                    var valueFromTflResponse = response?.GetType().GetProperty(key.ToTitledCase())?.GetValue(response, null);
+                    var capitalizedKey = key.FirstCharToUpper();
+                    var valueFromTflResponse = response?.GetType().GetProperty(capitalizedKey)?.GetValue(response, null);
                     var hasValueInApplicationResponse = _results
                         .Any(x =>
                             x.ConsoleOutput.Contains($"The status of the {response?.DisplayName} is as follows")
