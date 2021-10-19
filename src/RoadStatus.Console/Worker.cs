@@ -49,7 +49,7 @@ namespace RoadStatus.Console
                              */
                             WriteLine($"The status of the {road.Name} is as follows");
                             WriteLine($"Road Status is {road.Status.Severity.Value}");
-                            WriteLine($"Road Status is {road.Status.Description.Value}");
+                            WriteLine($"Road Status Description {road.Status.Description.Value}");
 
                             Environment.ExitCode = (int) ExitCode.Success;
                         },

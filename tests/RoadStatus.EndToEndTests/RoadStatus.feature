@@ -3,12 +3,11 @@
 
 Scenario: The dislay name of a road is displayed
 	Given a valid road ID is specified:
-		| Road Id | Display Name          |
-		| A1      | A1                    |
-		| A2      | A2                    |
-		| A20     | A20                   |
-		| A406    | North Circular (A406) |
-		| A2      | A2                    |
+		| Road Id | Display Name |
+		| A1      | A1           |
+		| A2      | A2           |
+		| A20     | A20          |
+		| A2      | A2           |
 	When the client is run
 	Then the road displayName should be displayed
 
@@ -18,19 +17,16 @@ Scenario: The status of a road is displayed
 		| A1      |
 		| A2      |
 		| A20     |
-		| A406    |
 		| A2      |
 	When the client is run
 	Then the road 'statusSeverity' should be displayed as 'Road Status'
 
-Scenario: A discription of the road status is displayed
+Scenario: A description of the road status is displayed
 	Given a valid road ID is specified:
-		| Road Id |   
 		| Road Id |
 		| A1      |
 		| A2      |
 		| A20     |
-		| A406    |
 		| A2      |
 	When the client is run
 	Then the road 'statusSeverityDescription' should be displayed as 'Road Status Description'

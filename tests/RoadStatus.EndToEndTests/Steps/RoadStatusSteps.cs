@@ -63,16 +63,17 @@ namespace RoadStatus.EndToEndTests.Steps
         {
             var roads = _roads
                 .Select(x => x.RoadId)
-                .Select(GetRoadAsync);
+                .Select(async s => await GetRoadAsync(s));
 
             (await Task.WhenAll(roads))
                 .ToList()
                 .ForEach(r =>
                 {
-                    var valueFromTflResponse = r.GetType().GetProperty(key.ToTitledCase())?.GetValue(r, null);
+                    var response = r.FirstOrDefault();
+                    var valueFromTflResponse = response?.GetType().GetProperty(key.ToTitledCase())?.GetValue(response, null);
                     var hasValueInApplicationResponse = _results
                         .Any(x =>
-                            x.ConsoleOutput.Contains($"The status of the {r.DisplayName} is as follows")
+                            x.ConsoleOutput.Contains($"The status of the {response?.DisplayName} is as follows")
                             && x.ConsoleOutput.Contains(
                                 $"{consoleKeyValue} is {valueFromTflResponse}"));
 
@@ -80,14 +81,13 @@ namespace RoadStatus.EndToEndTests.Steps
                 });
         }
 
-        private async Task<RoadResponse> GetRoadAsync(string roadId) =>
-            (await _tfLApiConfig.BaseUrl
+        private Task<List<RoadResponse>> GetRoadAsync(string roadId) =>
+            _tfLApiConfig.BaseUrl
                 .AppendPathSegment("Road")
                 .AppendPathSegment(roadId)
                 .SetQueryParam("app_key", _tfLApiConfig.AppKey)
                 .WithClient(_tfLHttpClient)
-                .GetJsonAsync<List<RoadResponse>>())
-            .FirstOrDefault();
+                .GetJsonAsync<List<RoadResponse>>();
 
         [Given(@"an invalid road ID is specified:")]
         public void GivenAnInvalidRoadIDIsSpecified(Table table) => _roads = table.CreateSet<Road>().ToList();
@@ -96,15 +96,15 @@ namespace RoadStatus.EndToEndTests.Steps
         public void ThenTheApplicationShouldReturnAnInformativeError()
         {
             var expected = _roads
-                .Select(r => $"{r} is not a valid road")
+                .Select(r => $"{r.RoadId} is not a valid road")
                 .ToList();
 
             var actual = _results
-                .Select(x => x.ConsoleOutput).ToList();
+                .Select(x => x.ConsoleOutput)
+                .ToList();
 
-            var doesResultContainInformativeError = actual.Any(expected.Contains);
-
-            Assert.IsTrue(doesResultContainInformativeError);
+            Assert.That(expected.Count, Is.EqualTo(actual.Count));
+            expected.ForEach(e => { Assert.That(actual.Any(a => a.Contains(e))); });
         }
 
         [Then(@"the application should exit with a non-zero System Error code")]
