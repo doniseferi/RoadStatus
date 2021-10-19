@@ -16,8 +16,8 @@ namespace RoadStatus.Service.QueryHandlers
             _roadRepository = roadRepository ?? throw new ArgumentNullException(nameof(roadRepository));
         }
 
-        public Task<Option<Road>> HandleAsync(RoadId roadId) => roadId != null
-            ? _roadRepository.GetByIdAsync(roadId)
+        public async Task<Option<Road>> HandleAsync(RoadId roadId) => roadId != null
+            ? await _roadRepository.GetByIdAsync(roadId)
             : throw new ArgumentNullException(nameof(roadId));
     }
 }

@@ -5,6 +5,7 @@ namespace RoadStatus.Data.Configuration
 {
     internal class TfLHttpClientConfiguration
     {
+
         public static void Configure(ITfLClientConfiguration tfLClientConfiguration) =>
             FlurlHttp.ConfigureClient(
                 tfLClientConfiguration.BaseUrl,

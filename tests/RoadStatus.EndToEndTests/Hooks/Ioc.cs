@@ -14,7 +14,7 @@ namespace RoadStatus.EndToEndTests.Hooks
     public class Ioc
     {
         private readonly IObjectContainer _objectContainer;
-        
+
         public static IConfiguration GetConfiguration() =>
             new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -34,8 +34,9 @@ namespace RoadStatus.EndToEndTests.Hooks
 
         private IFlurlClient CreateTfLHttpClient()
         {
-            var tflApiConfig = new TfLApiConfig();
-            GetConfiguration().GetSection(TfLApiConfig.Section).Bind(tflApiConfig);
+            var tflApiConfig = GetConfiguration()
+                .GetSection(TfLApiConfig.Section)
+                .Get<TfLApiConfig>();
             _objectContainer.RegisterInstanceAs(tflApiConfig);
             return new FlurlClient();
         }
