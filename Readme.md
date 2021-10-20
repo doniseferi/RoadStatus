@@ -1,7 +1,7 @@
 # Road Status
 
 ## What is Road Status
-A console application that retrives the status of any road that is managed by TfL (backed by thier [Road](https://api.tfl.gov.uk/swagger/ui/index.html?url=/swagger/docs/v1#!/Road/Road_Get_0) endpoint).
+A console application that retrieves the status of any road that is managed by TfL (backed by their [Road](https://api.tfl.gov.uk/swagger/ui/index.html?url=/swagger/docs/v1#!/Road/Road_Get_0) endpoint).
 
 
 ## Prerequisites
