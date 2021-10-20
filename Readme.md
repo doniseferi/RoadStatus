@@ -24,20 +24,19 @@ To remove this variable run (as admin):
 
 ### Run the solution:
 <code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj a1
-</code>
+</code> or <code>.\src\RoadStatus.Console\bin\Debug\net5.0\RoadStatus.Console.exe a1</code>
 <img src="assets/a1.PNG" />
 
 <code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj a99
-</code>
+</code> or <code>.\src\RoadStatus.Console\bin\Debug\net5.0\RoadStatus.Console.exe a99</code>
 <img src="assets/a99.PNG" />
 
 <code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj
-</code>
+</code> or <code>.\src\RoadStatus.Console\bin\Debug\net5.0\RoadStatus.Console.exe</code>
 <img src="assets/empty.PNG" />
 
-
-<code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj "  "
-</code>
+<code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj " "
+</code> or <code>.\src\RoadStatus.Console\bin\Debug\net5.0\RoadStatus.Console.exe " "</code>
 <img src="assets/whitespace.PNG" />
 
 ## Running Tests
@@ -53,9 +52,9 @@ You can confirm these have been set successfully via <code>dotnet user-secrets s
 
 Using the .NET cli:
 <code>dotnet test .\tests\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj</code>
-<img src="assets/unittests.png" />
+<img src="assets/unittests.PNG" />
 <code>dotnet test .\tests\RoadStatus.UnitTests\RoadStatus.UnitTests.csproj</code>
-<img src="assets/e2e.png" />
+<img src="assets/e2e.PNG" />
 
 To remove user secrets run the following:
 <code>dotnet user-secrets clear --project .\tests\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj
