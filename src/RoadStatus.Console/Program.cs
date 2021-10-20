@@ -47,7 +47,6 @@ namespace RoadStatus.Console
                 .GetSection(TfLClientConfiguration.Section)
                 .Get<TfLClientConfiguration>();
 
-            //      TfLHttpClientConfiguration.Configure(tfLClientConfiguration);
             var flurlClient = new FlurlClient(baseUrl: tfLClientConfiguration.BaseUrl)
                 .Configure(c =>
                     c.BeforeCall = call => call.Request.SetQueryParam("app_key", tfLClientConfiguration.AppKey));
