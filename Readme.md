@@ -10,7 +10,7 @@ A console application that retrives the status of any road that is managed by Tf
 
 All the commands detailed below are ran via [Powershell 7.1.5](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.5).
 
-## Running the console application
+## Building and running the application
 Before running the tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a machine level environment variable or enter it into the appsettings.json file.
 
 You can add the system level environment variable via system properties however the simplest way of setting the environment variable is via setx command as follows via powershell:
@@ -39,7 +39,7 @@ To remove this variable run (as admin):
 </code> or <code>.\src\RoadStatus.Console\bin\Debug\net5.0\RoadStatus.Console.exe " "</code>
 <img src="assets/whitespace.PNG" />
 
-## Running Tests
+## Running the tests
 Before running the tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a secrets.json file as follows
 
 Run the following commands while at the root of the repo:
@@ -62,3 +62,6 @@ To remove user secrets run the following:
 
 
 The dotnet [user-secrets](https://github.com/aspnet/Configuration/commit/9518bec5b69e305315309a87213e0153cb26de7f) have been available since .net core 2.1.
+
+## Code Metrics
+<img src="assets/metrics.PNG" />
