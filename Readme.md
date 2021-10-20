@@ -11,7 +11,7 @@ A console application that retrieves the status of any road that is managed by T
 All the commands detailed below are ran via [Powershell 7.1.5](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.5).
 
 ## Building and running the application
-Before running the tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a machine level environment variable or enter it into the appsettings.json file.
+Before running the application or tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a machine level environment variable or enter it into the appsettings.json file.
 
 You can add the system level environment variable via system properties however the simplest way of setting the environment variable is via setx command as follows via powershell:
 <code>setx TfLApiConfig__AppKey "YOUR_API_KEY" /M</code>
