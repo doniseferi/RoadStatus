@@ -8,6 +8,8 @@ A console application that retrives the status of any road that is managed by Tf
 - [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [App key](https://api-portal.tfl.gov.uk/)
 
+All the commands detailed below are ran via [Powershell 7.1.5](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.5).
+
 ## Running the console application
 Before running the tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a machine level environment variable or enter it into the appsettings.json file.
 
@@ -36,7 +38,7 @@ To remove this variable run (as admin):
 
 <code>dotnet run --project .\src\RoadStatus.Console\RoadStatus.Console.csproj "  "
 </code>
-<img src="assets/whiteline.PNG" />
+<img src="assets/whitespace.PNG" />
 
 ## Running Tests
 Before running the tests you need an app key which has access to TfL's Road api. Once you have this you must configure the AppKey via a secrets.json file as follows
@@ -48,5 +50,16 @@ dotnet user-secrets set "TfLApiConfig:AppKey" "YOUR_API_KEY" --project .\tests\R
 </code>
 
 You can confirm these have been set successfully via <code>dotnet user-secrets set "TfLApiConfig:AppKey" "faeb9e1b43214fde95500b1a7563170e" --project .\tests\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj</code>
+
+Using the .NET cli:
+<code>dotnet test .\tests\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj</code>
+<img src="assets/unittests.png" />
+<code>dotnet test .\tests\RoadStatus.UnitTests\RoadStatus.UnitTests.csproj</code>
+<img src="assets/e2e.png" />
+
+To remove user secrets run the following:
+<code>dotnet user-secrets clear --project .\tests\RoadStatus.EndToEndTests\RoadStatus.EndToEndTests.csproj
+</code>
+
 
 The dotnet [user-secrets](https://github.com/aspnet/Configuration/commit/9518bec5b69e305315309a87213e0153cb26de7f) have been available since .net core 2.1.
